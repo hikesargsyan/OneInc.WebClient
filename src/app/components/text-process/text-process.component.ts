@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Subscription, SubscriptionLike} from "rxjs";
 import {NgIf} from "@angular/common";
 import {UrlConstant} from "../../core/constants/url.constant";
@@ -29,13 +29,16 @@ export class TextProcessComponent implements OnDestroy {
     });
   }
 
+  get inputTextForm() {
+    return this.textForm.get('inputText');
+  }
 
   processText() {
     if (this.textForm.invalid) {
       return;
     }
 
-    const inputText = this.textForm.get('inputText')?.value;
+    const inputText = this.inputTextForm?.value;
     this.isProcessing = true;
     this.outputText = '';
 
@@ -43,13 +46,12 @@ export class TextProcessComponent implements OnDestroy {
       .processServerSentEvents(`${UrlConstant.TextProcessingUrl}/${inputText}`)
       .subscribe({
           next: data => {
-            console.log(data);
             this.outputText += data;
           },
           error: error => {
-            console.log(error);
             this.outputText = '';
             this.isProcessing = false;
+            alert("Something went wrong while processing your text")
           },
           complete: () => {
             this.isProcessing = false;
@@ -62,7 +64,7 @@ export class TextProcessComponent implements OnDestroy {
     if (this.eventSourceSubscription) {
       this.eventSourceSubscription.unsubscribe();
     }
-    this.eventSourceService.close();
+    this.eventSourceService.closeServerSentEvents();
     this.isProcessing = false;
     this.outputText = '';
   }

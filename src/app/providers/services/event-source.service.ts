@@ -32,16 +32,10 @@ export class EventSourceService {
     });
   }
 
-
-  /**
-   * Method for closing the connection
-   */
-  close(): void {
-
+  closeServerSentEvents(): void {
     if (!this.eventSource) {
       return;
     }
-
     this.eventSource.close();
   }
 }

@@ -4,12 +4,12 @@
     <div class="form-group">
       <label for="inputText">Input Text:</label>
       <input type="text" class="form-control" id="inputText" formControlName="inputText">
-      <small class="text-danger" *ngIf="textForm.get('inputText')?.errors">
+      <small class="text-danger" *ngIf="inputTextForm?.errors">
         Invalid text
       </small>
     </div>
     <div class="mt-2">
-      <button [disabled]="!textForm.get('inputText')?.value" *ngIf="!isProcessing" type="submit" class="btn btn-primary">
+      <button [disabled]="!inputTextForm?.value" *ngIf="!isProcessing" type="submit" class="btn btn-primary">
         Process
       </button>
       <button *ngIf="isProcessing" type="button" class="btn btn-danger" (click)="closeTextProcess()">Cancel</button>
