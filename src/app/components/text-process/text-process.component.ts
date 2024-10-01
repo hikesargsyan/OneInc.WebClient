@@ -25,7 +25,7 @@ export class TextProcessComponent implements OnDestroy {
 
   constructor(private fb: FormBuilder, private eventSourceService: EventSourceService) {
     this.textForm = this.fb.group({
-      inputText: ['', [ Validators.maxLength(100)]],
+      inputText: ['', [Validators.maxLength(100)]],
     });
   }
 
@@ -36,17 +36,19 @@ export class TextProcessComponent implements OnDestroy {
     }
 
     const inputText = this.textForm.get('inputText')?.value;
-
     this.isProcessing = true;
     this.outputText = '';
 
-    this.eventSourceSubscription = this.eventSourceService.processServerSentEvents(`/TextProcessing/${inputText}`)
+    this.eventSourceSubscription = this.eventSourceService
+      .processServerSentEvents(`${UrlConstant.TextProcessingUrl}/${inputText}`)
       .subscribe({
           next: data => {
             console.log(data);
-            this.outputText += data
+            this.outputText += data;
           },
-          error: err => {
+          error: error => {
+            console.log(error);
+            this.outputText = '';
             this.isProcessing = false;
           },
           complete: () => {

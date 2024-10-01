@@ -17,8 +17,8 @@ export class EventSourceService {
   }
 
 
-  processServerSentEvents(url: string,): Observable<Event> {
-    this.eventSource = this.getEventSource(UrlConstant.ApiUrl +  url, {withCredentials: true});
+  processServerSentEvents(url: string): Observable<Event> {
+    this.eventSource = this.getEventSource(url, {withCredentials: true});
 
     return new Observable((subscriber: Subscriber<Event>) => {
       this.eventSource.onerror = error => {

@@ -1,6 +1,6 @@
 <div class="container mt-4">
-  <h2>Long-Running Job Processor</h2>
-  <form [formGroup]="textForm" (ngSubmit)="processText()">
+  <h2>Text Processor</h2>
+  <form class="mt-4" [formGroup]="textForm" (ngSubmit)="processText()">
     <div class="form-group">
       <label for="inputText">Input Text:</label>
       <input type="text" class="form-control" id="inputText" formControlName="inputText">
