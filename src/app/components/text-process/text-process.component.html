@@ -1,15 +1,22 @@
-
-<div class="m-3">
-  <h1 class="m-2">OneInc: Long Running Text Encode</h1>
-  <form class="w-25 mt-4">
-
-    <div class="form-group m-2">
-      <input type="text" class="form-control"  aria-describedby="textHint" placeholder="Enter text">
-      <small id="textHint"  class="form-text text-muted">Enter text and press submit to encode</small>
+<div class="container mt-4">
+  <h2>Long-Running Job Processor</h2>
+  <form [formGroup]="textForm" (ngSubmit)="processText()">
+    <div class="form-group">
+      <label for="inputText">Input Text:</label>
+      <input type="text" class="form-control" id="inputText" formControlName="inputText">
+      <small class="text-danger" *ngIf="textForm.get('inputText')?.errors">
+        Invalid text
+      </small>
     </div>
     <div class="mt-2">
-      <button type="submit" class="btn btn-primary m-2">Submit</button>
-      <button type="button" class="btn btn-danger m-2">Cancel</button>
+      <button [disabled]="!textForm.get('inputText')?.value" *ngIf="!isProcessing" type="submit" class="btn btn-primary">
+        Process
+      </button>
+      <button *ngIf="isProcessing" type="button" class="btn btn-danger" (click)="closeTextProcess()">Cancel</button>
     </div>
   </form>
+  <div class="mt-3">
+    <label>Output:</label>
+    <textarea class="form-control" rows="5" [value]="outputText" readonly></textarea>
+  </div>
 </div>
